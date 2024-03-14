@@ -164,6 +164,10 @@ cc_library(
         "@boost//:multiprecision",
         "@com_github_pantor_inja//:inja",
         "@nlohmann_json//:json",
+        "@com_github_p4lang_p4_constraints//p4_constraints/frontend:parser",
+        "@com_github_p4lang_p4_constraints//p4_constraints:ast",
+        "@com_github_p4lang_p4_constraints//p4_constraints:ast_cc_proto",
+        "@com_github_p4lang_p4_constraints//p4_constraints:constraint_source",
     ],
 )
 

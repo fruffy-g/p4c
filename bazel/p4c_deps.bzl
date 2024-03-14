@@ -25,6 +25,13 @@ filegroup(
 )
             """,
         )
+    if not native.existing_rule("com_github_p4lang_p4_constraints"):
+        git_repository(
+            name = "com_github_p4lang_p4_constraints",
+            remote = "https://github.com/fruffy-g/p4-constraints",
+            # Newest commit on main branch as of August 11, 2023.
+            commit = "241f43be9b526ed102fa3ebf856c3fda971f33a0",
+        )
     if not native.existing_rule("com_github_nelhage_rules_boost"):
         git_repository(
             name = "com_github_nelhage_rules_boost",
