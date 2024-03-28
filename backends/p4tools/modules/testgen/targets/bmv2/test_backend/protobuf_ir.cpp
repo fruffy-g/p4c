@@ -118,12 +118,56 @@ input_packet {
   port: {{send.ig_port}}
 }
 
+## if exists("clone_specs")
+## for clone_pkt in clone_specs.clone_pkts
+entities {
+  packet_replication_engine_entry {
+    multicast_group_entry {
+      multicast_group_id: {{clone_pkt.session_id}}
+      replicas {
+        port: "{{clone_pkt.clone_port}}"
+        instance: 1
+      }
+    }
+  }
+}
+## endfor
+## endif
+
 ## if verify
+## if exists("clone_specs")
+
+## for clone_pkt in clone_specs.clone_pkts
+## if clone_pkt.cloned
+expected_output_packet {
+  packet: "{{verify.exp_pkt}}"
+  port: {{clone_pkt.clone_port}}
+  packet_mask: "{{verify.ignore_mask}}"
+}
+##endif
+##endfor
+
+## if not clone_specs.has_clone
 expected_output_packet {
   packet: "{{verify.exp_pkt}}"
   port: {{verify.eg_port}}
   packet_mask: "{{verify.ignore_mask}}"
 }
+## else
+expected_output_packet {
+  packet: "{{verify.exp_pkt}}"
+  port: {{verify.eg_port}}
+  packet_mask: "{{verify.ignore_mask}}"
+}
+##endif
+
+## else
+expected_output_packet {
+  packet: "{{verify.exp_pkt}}"
+  port: {{verify.eg_port}}
+  packet_mask: "{{verify.ignore_mask}}"
+}
+## endif
 ## endif
 
 ## if control_plane
